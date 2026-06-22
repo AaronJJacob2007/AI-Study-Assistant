@@ -13,7 +13,8 @@ question=st.text_input("Ask a question")
 
 if st.button("Submit"):
     try:
-        response = client.models.generate_content(
+        with st.spinner("Thinking..."):
+            response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=question
         )
