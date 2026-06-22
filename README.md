@@ -1,37 +1,47 @@
 # AI Study Assistant
 
-An AI-powered study assistant project currently under development using Python.
+A study assistant built using Python, Streamlit, and the Gemini API.
 
-## Objective
+This project started as a way to learn how AI applications are built while improving my Python development skills. It currently allows users to ask questions through a simple Streamlit interface and receive responses from Gemini.
 
-The goal of this project is to create a study companion that helps students with learning-related tasks, improves productivity, and makes studying more organized and efficient.
+## Current Features
 
-## Planned Features
+* Ask questions through a web interface
+* Receive AI-generated responses using Gemini
+* Secure API key management with environment variables
+* Version controlled using Git and GitHub
 
-- Answer academic queries
-- Organize study resources
-- Provide study assistance and guidance
-- Generate summaries and notes
-- Improve learning efficiency
+## Technologies Used
 
-## Technologies
-
-- Python
-- Git & GitHub
+* Python
+* Streamlit
+* Gemini API
+* Git
+* GitHub
 
 ## Current Status
 
-This project is currently in the learning and development phase. I am exploring Python and AI concepts while building the foundation for the application.
+The basic application is working and connected to the Gemini API.
 
-## Future Improvements
+I am continuing to develop the project while learning:
 
-- AI-powered question answering
-- Personalized study recommendations
-- Study planner and task management
-- Better user interface
-- Integration with learning resources
+* AI application development
+* Python
+* Streamlit
+* APIs
+* Software development workflows
+
+## Planned Improvements
+
+* Subject-specific study assistance
+* Quiz generation
+* Better user interface
+* Study planning features
+* Additional AI-powered tools for students
 
 ## Author
 
 Aaron Jacob
+
 Computer Engineering Student
+
