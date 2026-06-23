@@ -25,6 +25,14 @@ difficulty = st.selectbox(
     ["Beginner", "Intermediate", "Advanced"]
 )
 
+
+days_left = st.number_input(
+    "Days Until Exam",
+    min_value=1,
+    max_value=365,
+    value=30
+)
+
 # User Input
 question = st.text_input("Enter a question or topic")
 
@@ -75,7 +83,7 @@ if st.button(" Generate Quiz"):
 
     else:
         quiz_prompt = f"""
-Generate 5{difficulty} level multiple choice questions on {question}
+Generate 5 {difficulty} level multiple choice questions on {question}
 for a college student studying {subject}.
 
 For each question provide:
@@ -135,6 +143,51 @@ Use headings and bullet points.
                 response = client.models.generate_content(
                     model="gemini-2.5-flash",
                     contents=notes_prompt
+                )
+
+            st.write(response.text)
+
+        except Exception:
+            st.error(
+                "Gemini is currently busy. Please try again later."
+            )
+
+st.divider()
+
+if st.button("Generate Study Plan"):
+
+    if not question.strip():
+        st.warning("Please enter a topic for the study plan.")
+
+    else:
+        study_prompt = f"""
+Create a detailed {days_left}-day study plan.
+
+Subject: {subject}
+
+Main Topic:
+{question}
+
+Difficulty Level:
+{difficulty}
+
+The plan should:
+
+1. Divide study time logically
+2. Include revision days
+3. Include practice sessions
+4. Be suitable for a college student
+5. Be realistic and achievable
+
+Present the plan day-by-day.
+"""
+
+        try:
+            with st.spinner("Creating Study Plan..."):
+
+                response = client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents=study_prompt
                 )
 
             st.write(response.text)
