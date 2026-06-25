@@ -3,11 +3,7 @@ from dotenv import load_dotenv
 import os
 from google import genai
 
-st.set_page_config(
-    page_title="AI Semester Companion",
-    page_icon="🎓",
-    layout="wide"
-)
+st.set_page_config(page_title="AI Semester Companion", page_icon="🎓", layout="wide")
 
 
 # Load environment variables
@@ -27,14 +23,17 @@ def generate_content(prompt, spinner_text):
     except Exception:
         return None
 
+
 if "history" not in st.session_state:
-    st.session_state.history=[]
+    st.session_state.history = []
 
 # Title
 st.title("AI Semester Companion")
 st.caption("Your AI-powered study assistant for college preparation")
 
 st.sidebar.title("History")
+if st.sidebar.button("Clear History"):
+    st.session_state.history.clear()
 
 for item in st.session_state.history:
     st.sidebar.write(item)
@@ -74,9 +73,7 @@ Question:
 
         if answer:
             st.write(answer)
-            st.session_state.history.append(
-                f"Question: {question}"
-            )
+            st.session_state.history.append(f"Question: {question}")
         else:
             st.error(
                 "Gemini is currently busy. Please wait a few seconds and try again."
@@ -112,10 +109,7 @@ At the end provide the answer key.
 
         if answer:
             st.write(answer)
-            st.session_state.history.append(
-         f"Quiz: {question}"
-         )
-
+            st.session_state.history.append(f"Quiz: {question}")
 
         else:
             st.error("Gemini is currently busy. Please try again later.")
@@ -151,9 +145,7 @@ Use headings and bullet points.
 
         if answer:
             st.write(answer)
-            st.session_state.history.append(
-        f"Notes: {question}"
-    )
+            st.session_state.history.append(f"Notes: {question}")
 
         else:
             st.error("Gemini is currently busy. Please try again later.")
@@ -196,9 +188,7 @@ Present the plan day-by-day.
 
             if answer:
                 st.write(answer)
-                st.session_state.history.append(
-        f"Study Plan: {question}"
-    )
+                st.session_state.history.append(f"Study Plan: {question}")
 
             else:
                 st.error("Gemini is currently busy. Please try again later.")
@@ -227,9 +217,7 @@ Present the plan day-by-day.
 
         if answer:
             st.write(answer)
-            st.session_state.history.append(
-               f"Study Plan: {subject}"
-             )
+            st.session_state.history.append(f"Study Plan: {subject}")
 
         else:
             st.error("Gemini is currently busy. Please try again later.")
