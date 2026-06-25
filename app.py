@@ -2,6 +2,8 @@ import streamlit as st
 from dotenv import load_dotenv
 import os
 from google import genai
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
 
 st.set_page_config(page_title="AI Semester Companion", page_icon="🎓", layout="wide")
 
@@ -22,6 +24,27 @@ def generate_content(prompt, spinner_text):
         return response.text
     except Exception:
         return None
+    
+def create_pdf(notes_text):
+
+    pdf_file = "study_notes.pdf"
+
+    doc = SimpleDocTemplate(pdf_file)
+
+    styles = getSampleStyleSheet()
+
+    content = []
+
+    for line in notes_text.split("\n"):
+
+        if line.strip():
+            content.append(
+                Paragraph(line, styles["BodyText"])
+            )
+
+    doc.build(content)
+
+    return pdf_file
 
 
 if "history" not in st.session_state:
@@ -165,6 +188,21 @@ if st.session_state.generated_notes:
         file_name="study_notes.txt",
         mime="text/plain"
     )
+
+if st.session_state.generated_notes:
+
+    pdf_file = create_pdf(
+        st.session_state.generated_notes
+    )
+
+    with open(pdf_file, "rb") as pdf:
+
+        st.download_button(
+            label="Download Notes (.pdf)",
+            data=pdf,
+            file_name="study_notes.pdf",
+            mime="application/pdf"
+        )
 
 st.divider()
 
