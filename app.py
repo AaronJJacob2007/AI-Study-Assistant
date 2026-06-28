@@ -103,6 +103,15 @@ if "history" not in st.session_state:
 if "generated_notes" not in st.session_state:
     st.session_state.generated_notes = ""
 
+if "generated_answer" not in st.session_state:
+    st.session_state.generated_answer = ""
+
+if "generated_quiz" not in st.session_state:
+    st.session_state.generated_quiz = ""
+
+if "generated_plan" not in st.session_state:
+    st.session_state.generated_plan = ""
+
 # Title
 st.title("AI Semester Companion")
 st.caption("Your AI-powered study assistant for college preparation")
@@ -151,12 +160,16 @@ Question:
         answer = generate_content(prompt, "Thinking...")
 
         if answer:
-            st.write(answer)
+            st.session_state.generated_answer = answer
             st.session_state.history.append(f"Question: {question}")
         else:
             st.error(
                 "Gemini is currently busy. Please wait a few seconds and try again."
             )
+if st.session_state.generated_answer:
+
+    with st.expander("📖 Answer", expanded=True):
+        st.write(st.session_state.generated_answer)
 
 # Divider
 st.divider()
@@ -187,11 +200,16 @@ At the end provide the answer key.
         answer = generate_content(quiz_prompt, "Generating Quiz...")
 
         if answer:
-            st.write(answer)
+            st.session_state.generated_quiz=answer
             st.session_state.history.append(f"Quiz: {question}")
 
         else:
             st.error("Gemini is currently busy. Please try again later.")
+
+if st.session_state.generated_quiz:
+
+    with st.expander("📝 Quiz", expanded=False):
+        st.write(st.session_state.generated_quiz)
 
 st.divider()
 
@@ -223,29 +241,30 @@ Use headings and bullet points.
         answer = generate_content(notes_prompt, "Generating Notes...")
 
         if answer:
-            st.write(answer)
-            st.session_state.history.append(f"Notes: {question}")
             st.session_state.generated_notes = answer
+            st.session_state.history.append(f"Notes: {question}")
+           
 
         else:
             st.error("Gemini is currently busy. Please try again later.")
 
-if st.session_state.generated_notes:
 
-    st.download_button(
-        label="Download Notes (.txt)",
-        data=st.session_state.generated_notes,
-        file_name="study_notes.txt",
-        mime="text/plain",
-    )
 
 if st.session_state.generated_notes:
-
-    pdf_file = create_pdf(st.session_state.generated_notes)
-
-    with open(pdf_file, "rb") as pdf:
+    with st.expander("📚Notes",expanded=False):
+        st.write(st.session_state.generated_notes)
 
         st.download_button(
+            label="Download Notes (.txt)",
+            data=st.session_state.generated_notes,
+            file_name="study_notes.txt",
+            mime="text/plain"
+        )
+
+        pdf_file = create_pdf(st.session_state.generated_notes)
+
+        with open(pdf_file, "rb") as pdf:
+            st.download_button(
             label="Download Notes (.pdf)",
             data=pdf,
             file_name="study_notes.pdf",
@@ -289,7 +308,7 @@ Present the plan day-by-day.
             answer = generate_content(study_prompt, "Creating Study Plan...")
 
             if answer:
-                st.write(answer)
+                st.session_state.generated_plan = answer
                 st.session_state.history.append(f"Study Plan: {question}")
 
             else:
@@ -318,8 +337,13 @@ Present the plan day-by-day.
         answer = generate_content(study_prompt, "Creating Study Plan...")
 
         if answer:
-            st.write(answer)
+            st.session_state.generated_plan = answer
             st.session_state.history.append(f"Study Plan: {subject}")
 
         else:
             st.error("Gemini is currently busy. Please try again later.")
+
+if st.session_state.generated_plan:
+
+    with st.expander("📅 Study Plan", expanded=False):
+        st.write(st.session_state.generated_plan)
